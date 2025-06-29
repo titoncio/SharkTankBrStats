@@ -1,0 +1,15 @@
+{
+  "name": "shark-tank-br-stats",
+  "version": "1.0.0",
+  "description": "Simple webpage for Shark Tank BR Stats, made for education purposes",
+  "main": "app.js",
+  "author": "Titoncio",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/titoncio/SharkTankBrStats/issues"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.839.0"
+  }
+}

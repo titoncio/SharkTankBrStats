@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shark Tank Brasil DB</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="header-title">Shark Tank Brasil DB</h1>
+                </div>
+                <div class="header-controls">
+                    <button class="btn btn--secondary theme-toggle" id="themeToggle">🌙</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCompanies">-</div>
+                    <div class="stat-label">Total de empresas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="closedDeals">-</div>
+                    <div class="stat-label">Acordos fechados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalInvestment">-</div>
+                    <div class="stat-label">Total investido</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="successRate">-</div>
+                    <div class="stat-label">Taxa de acordo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="search-filters-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" class="form-control search-input" id="searchInput" placeholder="Buscar empresas...">
+            </div>
+
+            <button class="btn btn--outline mobile-filter-btn" id="mobileFilterBtn">
+                Filtros
+            </button>
+
+            <div class="filters-sidebar" id="filtersSidebar">
+                <div class="filters-header">
+                    <h3>Filtros</h3>
+                    <button class="btn btn--secondary btn--sm" id="clearFilters">Limpar</button>
+                    <button class="filters-close" id="filtersClose">×</button>
+                </div>
+
+                <div class="filter-section">
+                    <button class="filter-section-toggle" data-target="season">
+                        <span>Temporada</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="filter-options" id="season">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <button class="filter-section-toggle" data-target="category">
+                        <span>Categoria</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="filter-options" id="category">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <button class="filter-section-toggle" data-target="status">
+                        <span>Status da proposta</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="filter-options" id="status">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" value="true"> Fechado
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" value="false"> Não fechado
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <button class="filter-section-toggle" data-target="participants">
+                        <span>Participantes</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="filter-options" id="participants">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <button class="filter-section-toggle" data-target="investors">
+                        <span>Investidores</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="filter-options" id="investors">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <button class="filter-section-toggle" data-target="investmentRange">
+                        <span>Investimento</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="filter-options" id="investmentRange">
+                        <div class="range-inputs">
+                            <label>
+                                <span>Min:</span>
+                                <input type="number" id="minInvestment" placeholder="R$ 0" class="form-control">
+                            </label>
+                            <label>
+                                <span>Max:</span>
+                                <input type="number" id="maxInvestment" placeholder="R$ 5,000,000" class="form-control">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="cache-status" id="cacheStatus" style="display: none;">
+                <span class="cache-indicator"></span>
+                <span class="cache-text"></span>
+            </div>
+
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Carregando...</p>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <div class="results-count">
+                        <span id="resultsCount">0</span> empresas encontradas
+                    </div>
+                    <div class="sort-controls">
+                        <select class="form-control" id="sortSelect">
+                            <option value="">Ordenar por...</option>
+                            <option value="company">Empresa (A-Z)</option>
+                            <option value="company-desc">Empresa (Z-A)</option>
+                            <option value="season">Temporada (Crescente)</option>
+                            <option value="season-desc">Temporada (Decrescente)</option>
+                            <option value="requested_amount">Investimento (Menor)</option>
+                            <option value="requested_amount-desc">Investimento (Maior)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container desktop-only">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Categoria</th>
+                                <th>Temporada</th>
+                                <th>Status</th>
+                                <th>Participantes</th>
+                                <th>Investidor(es)</th>
+                                <th>Valor solicitado</th>
+                                <th>Participação oferecida</th>
+                                <th>Valor negociado</th>
+                                <th>Participação negociada</th>
+                                <th>Tipo de acordo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cards-container mobile-only" id="cardsContainer">
+                </div>
+
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Mostrando <span id="paginationStart">1</span>-<span id="paginationEnd">10</span> de <span id="paginationTotal">0</span> resultados
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="btn btn--outline" id="prevPage" disabled>‹ Anterior</button>
+                        <div class="pagination-pages" id="paginationPages"></div>
+                        <button class="btn btn--outline" id="nextPage" disabled>Próximo ›</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">🔍</div>
+                <h3>Nenhum resultado encontrado</h3>
+                <p>Tente ajustar o filtro ou termo buscado</p>
+                <button class="btn btn--primary" id="clearAllFilters">Limpar todos os filtroes</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="detailModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Detalhes da empresa</h2>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-overlay" id="filterOverlay"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

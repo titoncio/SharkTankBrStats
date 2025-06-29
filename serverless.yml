@@ -1,0 +1,44 @@
+service: shark-tank-br-stats
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  environment:
+    DYNAMODB_TABLE: DealsTable
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:Scan
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/DealsTable
+
+functions:
+  getDeals:
+    handler: handler.getDeals
+    events:
+      - http:
+          path: deals
+          method: get
+  createDeal:
+    handler: handler.createDeal
+    events:
+      - http:
+          path: deal
+          method: post
+
+resources:
+  Resources:
+    EmpresasTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: DealsTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
