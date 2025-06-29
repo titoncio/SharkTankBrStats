@@ -19,7 +19,7 @@ export async function getDeals(event) {
       statusCode: 200,
       headers: {
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "https://master.d1vogg24whu6rr.amplifyapp.com",
+        "Access-Control-Allow-Origin": "https://titoncio.github.io",
         "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
       },
       body: JSON.stringify(items),
